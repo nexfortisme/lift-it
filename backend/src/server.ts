@@ -5,6 +5,7 @@ import GetDBConnection from "./database/database";
 import authRoutes from "./auth/auth-routes";
 import GetUserInfo from "./users/users";
 import GetUserActivity from "./users/activity";
+import { serveStatic } from "hono/serve-static";
 
 let PORT = Bun.env.PORT || 3000;
 let BASE_ROUTE = Bun.env.BASE_ROUTE;
@@ -21,6 +22,13 @@ app.use("*", async (c, next) => {
     credentials: true,
   })(c, await next);
 });
+
+// app.use("/", serveStatic({
+//   root: "./public",
+//   getContent: async (path, c) => {
+//     return null;
+//   }
+// }));
 
 /* Routes */
 app.route("/auth", authRoutes);

@@ -1,33 +1,61 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import AppHeader from './components/shared/AppHeader.vue'
+import AppFooter from './components/shared/AppFooter.vue'
+import { useAuthStore } from './stores/auth'
+
+let authStore = useAuthStore()
 
 let onLoginClick = () => {
   window.location.href = 'http://localhost:3000/api/v1/auth/discord'
 }
-
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <v-app>
+    <AppHeader v-if="authStore.isAuthenticated" />
+    <v-main>
+      <RouterView />
+    </v-main>
+    <v-footer>
+      <AppFooter />
+    </v-footer>
+  </v-app>
+  <!-- <div class="app-container">
+    <header>
+      <AppHeader />
+    </header>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <main class="contnet">
+      <RouterView />
+    </main>
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-
-  <button @click="onLoginClick">Login</button>
-  <RouterView />
+    <footer>
+      <AppFooter />
+    </footer>
+  </div> -->
 </template>
 
 <style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex-grow: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+
 header {
   line-height: 1.5;
   max-height: 100vh;
