@@ -21,19 +21,6 @@ let onLoginClick = () => {
       <AppFooter />
     </v-footer>
   </v-app>
-  <!-- <div class="app-container">
-    <header>
-      <AppHeader />
-    </header>
-
-    <main class="contnet">
-      <RouterView />
-    </main>
-
-    <footer>
-      <AppFooter />
-    </footer>
-  </div> -->
 </template>
 
 <style scoped>
