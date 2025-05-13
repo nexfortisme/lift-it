@@ -27,7 +27,7 @@ let logout = () => {
 <template>
   <v-app-bar color="background" density="compact" elevation="1">
     <template v-slot:prepend>
-      <v-app-bar-title>30a.day</v-app-bar-title>
+      <v-app-bar-title>LiftIt</v-app-bar-title>
     </template>
 
     <v-btn icon @click="drawer = !drawer" class="d-md-none">

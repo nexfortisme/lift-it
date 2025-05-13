@@ -31,19 +31,20 @@ function CreateTables() {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     workoutType TEXT NOT NULL
   )`);
-  // Events
-  db.exec(`CREATE TABLE IF NOT EXISTS events (
+  // Exersizes
+  db.exec(`CREATE TABLE IF NOT EXISTS exersize (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    eventType INTEGER NOT NULL,
-    FOREIGN KEY (eventType) REFERENCES eventType(id)
+    exersizeName TEXT NOT NULL,
+    exersizeType INTEGER NOT NULL,
+    FOREIGN KEY (exersizeType) REFERENCES exersizeType(id)
   )`);
-  // Event Types
-  db.exec(`CREATE TABLE IF NOT EXISTS eventType (
+  // Exersize Types
+  db.exec(`CREATE TABLE IF NOT EXISTS exersizeType (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    eventType TEXT NOT NULL
+    exersizeType TEXT NOT NULL
   )`);
-  // Workout Events
-  db.exec(`CREATE TABLE IF NOT EXISTS workoutEvent (
+  // Workout Exersizes
+  db.exec(`CREATE TABLE IF NOT EXISTS workoutExersize (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     workoutId INTEGER NOT NULL,
     FOREIGN KEY (workoutId) REFERENCES workout(id),

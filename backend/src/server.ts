@@ -12,6 +12,25 @@ let BASE_ROUTE = Bun.env.BASE_ROUTE;
 let OAUTH_URL = Bun.env.OAUTH_URL || "";
 let JWT_SECRET = Bun.env.JWT_SECRET || "";
 
+console.log("BASE_ROUTE", BASE_ROUTE);
+console.log("OAUTH_URL", OAUTH_URL);
+console.log("JWT_SECRET", JWT_SECRET); 
+
+if(!BASE_ROUTE) {
+  console.error("BASE_ROUTE is not set");
+  process.exit(1);
+}
+
+if(!OAUTH_URL) {  
+  console.error("OAUTH_URL is not set");
+  process.exit(1);
+}
+
+if(!JWT_SECRET) {
+  console.error("JWT_SECRET is not set");
+  process.exit(1);
+}
+
 let app = new Hono().basePath(BASE_ROUTE ?? "/api/v1");
 
 /* Middleware to prevent cors errors*/
