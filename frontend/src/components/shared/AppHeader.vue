@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAuthStore } from '@/stores/auth'
+import { useAuthStore } from '@/stores/auth.store'
 import { ref } from 'vue'
 
 let authStore = useAuthStore()

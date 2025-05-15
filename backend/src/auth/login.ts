@@ -14,8 +14,6 @@ let BASE_ROUTE = Bun.env.BASE_ROUTE;
 
 export async function Login(c: Context) {
 
-  console.log('login', c.req.query("code"));
-
   let code = c.req.query("code");
 
   let params = new URLSearchParams();
@@ -87,22 +85,42 @@ export async function AuthCallback(c: Context) {
 
 export async function Logout(c: Context) {
 
-  const authHeader = c.req.header.arguments("authorization");
-  let token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
+  console.log('logout', c.req.header("authorization"))
 
-  let params = new URLSearchParams();
-  params.append("token", token ?? "");
+  try {
+    const authHeader = c.req.header("authorization");
+    let token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
-  fetch(`https://discord.com/api/oauth2/token/revoke`, {
-    method: "POST",
-    body: params,
-  })
-    .then((res) => res.json())
-    .then((json) => {
-      console.log("revoke response", json);
-      // token = json.access_token;
-      // response.redirect(BASE_ROUTE + "/auth/callback");
+    if (!token) {
+      return c.json({ error: "No token provided" }, 401 as const);
+    }
+
+    let params = new URLSearchParams();
+    params.append("token", token);
+    params.append("token_type_hint", "access_token");
+
+    const response = await fetch(`https://discord.com/api/oauth2/token/revoke`, {
+      method: "POST",
+      body: JSON.stringify({
+        token: token,
+        token_type_hint: "access_token",
+      }),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      }
     });
+
+    console.log('logout response', response);
+
+    if (!response.ok) {
+      return c.json({ error: "Failed to revoke token" }, 400 as const);
+    }
+
+    return c.json({ message: "Logged out successfully" }, 200 as const);
+  } catch (error) {
+    console.error("Logout error:", error);
+    return c.json({ error: "Internal server error during logout" }, 500 as const);
+  }
 }
 
 export default { Login, Logout, AuthCallback };

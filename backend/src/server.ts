@@ -1,20 +1,11 @@
 import { Hono } from "hono";
-import { jwt } from "hono/jwt";
 import { cors } from "hono/cors";
-import GetDBConnection from "./database/database";
+import { logger } from "hono/logger";
 import authRoutes from "./auth/auth-routes";
-import GetUserInfo from "./users/users";
-import GetUserActivity from "./users/activity";
-import { serveStatic } from "hono/serve-static";
-
 let PORT = Bun.env.PORT || 3000;
 let BASE_ROUTE = Bun.env.BASE_ROUTE;
 let OAUTH_URL = Bun.env.OAUTH_URL || "";
 let JWT_SECRET = Bun.env.JWT_SECRET || "";
-
-console.log("BASE_ROUTE", BASE_ROUTE);
-console.log("OAUTH_URL", OAUTH_URL);
-console.log("JWT_SECRET", JWT_SECRET); 
 
 if(!BASE_ROUTE) {
   console.error("BASE_ROUTE is not set");
@@ -33,14 +24,14 @@ if(!JWT_SECRET) {
 
 let app = new Hono().basePath(BASE_ROUTE ?? "/api/v1");
 
+app.use(logger())
+
 /* Middleware to prevent cors errors*/
-app.use("*", async (c, next) => {
-  await cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"],
-    allowMethods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })(c, await next);
-});
+app.use("*", cors({
+  origin: ["http://localhost:3000", "http://localhost:5173"],
+  allowMethods: ["GET", "OPTIONS", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 // app.use("/", serveStatic({
 //   root: "./public",

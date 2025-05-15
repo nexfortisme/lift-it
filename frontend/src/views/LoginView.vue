@@ -1,5 +1,6 @@
 <script setup lang="ts">
 let onLoginClick = () => {
+  // TODO: Add this to .env
   window.location.href = 'http://localhost:3000/api/v1/auth/discord'
 }
 

@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import AppHeader from './components/shared/AppHeader.vue'
 import AppFooter from './components/shared/AppFooter.vue'
-import { useAuthStore } from './stores/auth'
+import { useAuthStore } from './stores/auth.store'
 
 let authStore = useAuthStore()
 
