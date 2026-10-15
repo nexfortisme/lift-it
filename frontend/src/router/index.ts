@@ -37,6 +37,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('to.meta.requiresAuth', to.meta.requiresAuth)
+  console.log('token', localStorage.getItem('token'))
   if (to.meta.requiresAuth && !localStorage.getItem('token')) {
     console.log('sending to login')
     next('/login')
